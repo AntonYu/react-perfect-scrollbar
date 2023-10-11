@@ -56,7 +56,7 @@ export default class ScrollBar extends Component {
       const value = this._handlerByEvent[key];
 
       if (value) {
-        this._container.removeEventListener(key, value, false);
+        this._container.removeEventListener(key, value, { passive: true });
       }
     });
     this._handlerByEvent = {};
