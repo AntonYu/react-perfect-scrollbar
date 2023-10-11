@@ -38,7 +38,7 @@
     "react-dom": ">=16.3.3"
   },
   "dependencies": {
-    "perfect-scrollbar": "^1.5.5",
+    "perfect-scrollbar": "github:AntonYu/perfect-scrollbar",
     "prop-types": "^15.8.1"
   },
   "devDependencies": {
