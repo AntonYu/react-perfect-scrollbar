@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import PerfectScrollbar from 'perfect-scrollbar';
+import React, { Component } from "react";
+import { PropTypes } from "prop-types";
+import PerfectScrollbar from "perfect-scrollbar";
 
 const handlerNameByEvent = {
-  'ps-scroll-y': 'onScrollY',
-  'ps-scroll-x': 'onScrollX',
-  'ps-scroll-up': 'onScrollUp',
-  'ps-scroll-down': 'onScrollDown',
-  'ps-scroll-left': 'onScrollLeft',
-  'ps-scroll-right': 'onScrollRight',
-  'ps-y-reach-start': 'onYReachStart',
-  'ps-y-reach-end': 'onYReachEnd',
-  'ps-x-reach-start': 'onXReachStart',
-  'ps-x-reach-end': 'onXReachEnd',
+  "ps-scroll-y": "onScrollY",
+  "ps-scroll-x": "onScrollX",
+  "ps-scroll-up": "onScrollUp",
+  "ps-scroll-down": "onScrollDown",
+  "ps-scroll-left": "onScrollLeft",
+  "ps-scroll-right": "onScrollRight",
+  "ps-y-reach-start": "onYReachStart",
+  "ps-y-reach-end": "onYReachEnd",
+  "ps-x-reach-start": "onXReachStart",
+  "ps-x-reach-end": "onXReachEnd",
 };
 Object.freeze(handlerNameByEvent);
 
@@ -26,10 +26,15 @@ export default class ScrollBar extends Component {
 
   componentDidMount() {
     if (this.props.option) {
-      console.warn('react-perfect-scrollbar: the "option" prop has been deprecated in favor of "options"');
+      console.warn(
+        'react-perfect-scrollbar: the "option" prop has been deprecated in favor of "options"'
+      );
     }
 
-    this._ps = new PerfectScrollbar(this._container, this.props.options || this.props.option);
+    this._ps = new PerfectScrollbar(
+      this._container,
+      this.props.options || this.props.option
+    );
     // hook up events
     this._updateEventHook();
     this._updateClassName();
@@ -67,12 +72,14 @@ export default class ScrollBar extends Component {
       if (callback !== prevCallback) {
         if (prevCallback) {
           const prevHandler = this._handlerByEvent[key];
-          this._container.removeEventListener(key, prevHandler, false);
+          this._container.removeEventListener(key, prevHandler, {
+            passive: true,
+          });
           this._handlerByEvent[key] = null;
         }
         if (callback) {
           const handler = () => callback(this._container);
-          this._container.addEventListener(key, handler, false);
+          this._container.addEventListener(key, handler, { passive: true });
           this._handlerByEvent[key] = handler;
         }
       }
@@ -82,12 +89,15 @@ export default class ScrollBar extends Component {
   _updateClassName() {
     const { className } = this.props;
 
-    const psClassNames = this._container.className.split(' ')
-      .filter(name => name.match(/^ps([-_].+|)$/))
-      .join(' ');
+    const psClassNames = this._container.className
+      .split(" ")
+      .filter((name) => name.match(/^ps([-_].+|)$/))
+      .join(" ");
 
     if (this._container) {
-      this._container.className = `scrollbar-container${className ? ` ${className}` : ''}${psClassNames ? ` ${psClassNames}` : ''}`;
+      this._container.className = `scrollbar-container${
+        className ? ` ${className}` : ""
+      }${psClassNames ? ` ${psClassNames}` : ""}`;
     }
   }
 
@@ -133,11 +143,11 @@ export default class ScrollBar extends Component {
 }
 
 ScrollBar.defaultProps = {
-  className: '',
+  className: "",
   style: undefined,
   option: undefined,
   options: undefined,
-  containerRef: () => { },
+  containerRef: () => {},
   onScrollY: undefined,
   onScrollX: undefined,
   onScrollUp: undefined,
@@ -148,8 +158,8 @@ ScrollBar.defaultProps = {
   onYReachEnd: undefined,
   onXReachStart: undefined,
   onXReachEnd: undefined,
-  onSync: ps => ps.update(),
-  component: 'div',
+  onSync: (ps) => ps.update(),
+  component: "div",
 };
 
 ScrollBar.propTypes = {
